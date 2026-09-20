@@ -1,78 +1,71 @@
-# React + TypeScript + Vite
+# OLX Clone
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive OLX-inspired marketplace web application built using React, TypeScript, and Firebase. The application allows users to browse products, view product details, add products to a wishlist, and sell their own products.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- OLX-inspired responsive UI
+- Firebase authentication
+- User registration and login
+- Product listing
+- Product details page
+- Add and remove products from wishlist
+- Sell product functionality
+- Multiple pages using React Router
+- Protected routes for authenticated users
+- Responsive design
 
-## React Compiler
+## Technologies Used
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- React
+- TypeScript
+- React Router
+- Firebase
+- HTML5
+- CSS3
+- Vite
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
+## Main Pages
 
-## Expanding the ESLint configuration
+- Home
+- Login
+- Register
+- Product Details
+- Wishlist
+- Sell Product
+- My Products
+- Not Found
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Authentication
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Firebase Authentication is used to handle user registration, login, logout, and authentication state.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Protected routes are implemented to restrict features such as wishlist and selling products to authenticated users.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Responsive Design
 
-```
+The application is designed to provide a responsive experience across:
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+- Desktop
+- Tablet
+- Mobile
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Assignment Requirements
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- [x] UI structure similar to OLX
+- [x] Authentication using Firebase
+- [x] Product listing
+- [x] Product details page
+- [x] Add to wishlist
+- [x] Sell product functionality
+- [x] Multiple pages using React Router
+- [x] Protected routes for authenticated users
+- [x] Responsive design
 
-```
+## Installation
+
+```bash
+git clone <repository-url>
+cd olx-clone
+npm install
+npm run dev
