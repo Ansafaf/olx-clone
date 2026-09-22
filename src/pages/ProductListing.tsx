@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import ProductList from "../components/ProductList";
 import Loader from "../components/Loader";
@@ -12,9 +12,7 @@ const filterOptions = [
   "Homes",
   "Electronics",
   "Furniture",
-  "Mobiles",
-  "Jobs",
-  "Services",
+  "Mobiles"
 ];
 
 const ProductListingPage = () => {
@@ -45,28 +43,27 @@ const ProductListingPage = () => {
     };
   }, []);
 
-  const filteredProducts = useMemo(() => {
-    return products.filter((product) => {
-      const matchesCategory =
-        selectedCategory === "All" || product.category === selectedCategory;
+  const filteredProducts = products.filter((product) => {
+  const matchesCategory = selectedCategory === "All" || product.category === selectedCategory;
 
-      const searchableText = [
-        product.title,
-        product.category,
-        product.location,
-        product.description,
-      ]
-        .join(" ")
-        .toLowerCase();
+  const searchableText = [
+    product.title,
+    product.category,
+    product.location,
+    product.description,
+  ]
+    .join(" ")
+    .toLowerCase().trim();
 
-      const matchesSearch = searchableText.includes(searchTerm.toLowerCase());
-      return matchesCategory && matchesSearch;
-    });
-  }, [products, searchTerm, selectedCategory]);
+  const matchesSearch = searchableText.includes(
+    searchTerm.toLowerCase().trim()
+  );
 
+  return matchesCategory && matchesSearch;
+});
   return (
     <div className="product-search-page">
-      <Navbar isLoggedIn={isLoggedIn} variant={isLoggedIn ? "user" : "guest"} />
+      <Navbar isLoggedIn={isLoggedIn} variant={isLoggedIn ? "user" : "guest"} hideSearch />
 
       <main className="product-search-shell">
         <section className="product-search-header">
@@ -116,6 +113,7 @@ const ProductListingPage = () => {
                 ? "Search results"
                 : `${selectedCategory} listings`
             }
+            showViewAll={false}
             products={filteredProducts.map((product) => ({
               ...product,
               badge: "Popular",

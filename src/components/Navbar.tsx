@@ -6,47 +6,43 @@ import { auth } from "../services/firebase";
 type NavbarProps = {
   isLoggedIn?: boolean;
   variant?: "guest" | "user";
+  hideSearch?: boolean;
 };
 
-const Navbar = ({ isLoggedIn = false, variant = "guest" }: NavbarProps) => {
+const Navbar = ({ isLoggedIn = false, variant = "guest", hideSearch = false }: NavbarProps) => {
   const handleLogout = async () => {
     await signOut(auth);
   };
 
   if (variant === "user") {
     return (
-      <header className="olx-navbar">
+      <header className={`olx-navbar ${hideSearch ? "olx-navbar-no-search" : ""}`}>
         <div className="olx-brand">OLX</div>
 
-        <div className="olx-search-box" aria-label="Search listings">
-          <span className="search-icon">⌕</span>
-          <input type="text" placeholder='Search "Properties"' />
-        </div>
+        {!hideSearch && (
+          <div className="olx-search-box" aria-label="Search listings">
+            <span className="search-icon">⌕</span>
+            <input type="text" placeholder='Search "Properties"' />
+          </div>
+        )}
 
         <div className="olx-actions">
-          <button className="icon-button chat-button" aria-label="Messages">
-            <span>💬</span>
-          </button>
-
-          <div className="action-item">
-            <button className="icon-button small-icon" aria-label="Wishlist">
-              <span>♡</span>
-            </button>
-            <span>Wishlist</span>
-          </div>
-
-          <div className="action-item">
-            <button className="icon-button small-icon" aria-label="Login">
-              <span>◔</span>
-            </button>
-            <span>{isLoggedIn ? "Profile" : "Login"}</span>
-          </div>
+          {isLoggedIn && (
+            <Link to={routes.wishlist} className="action-item wishlist-link" aria-label="Wishlist">
+              <button type="button" className="icon-button small-icon" aria-label="Wishlist">
+                <span>♡</span>
+              </button>
+              <span>Wishlist</span>
+            </Link>
+          )}
 
           <button className="logout-button" onClick={handleLogout}>
             Logout
           </button>
 
-          <button className="sell-button">+ SELL</button>
+          <Link to={routes.sellProduct} className="sell-button">
+            + SELL
+          </Link>
         </div>
       </header>
     );
@@ -58,7 +54,6 @@ const Navbar = ({ isLoggedIn = false, variant = "guest" }: NavbarProps) => {
       <nav className="nav-links" aria-label="Main navigation">
         <a href="#categories">Browse</a>
         <a href="#featured">Featured</a>
-        <a href="#sell">Sell</a>
       </nav>
 
       <div className="nav-actions">

@@ -7,6 +7,7 @@ type ProductListProps = {
   products: ProductCardItem[];
   view?: "grid" | "compact";
   viewAllLink?: string;
+  showViewAll?: boolean;
 };
 
 const ProductList = ({
@@ -14,6 +15,7 @@ const ProductList = ({
   products,
   view = "grid",
   viewAllLink = routes.products,
+  showViewAll = false,
 }: ProductListProps) => {
   return (
     <section className="product-list-section">
@@ -22,9 +24,12 @@ const ProductList = ({
           <p className="eyebrow">Latest</p>
           <h2>{title}</h2>
         </div>
-        <Link to={viewAllLink} className="view-all-button">
-          View all
-        </Link>
+
+        {showViewAll && (
+          <Link to={viewAllLink} className="view-all-button">
+            View all
+          </Link>
+        )}
       </div>
 
       <div className={`product-list-grid ${view === "compact" ? "compact" : ""}`}>

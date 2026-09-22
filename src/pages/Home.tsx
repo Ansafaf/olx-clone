@@ -1,5 +1,4 @@
 
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { routes } from "../constants/routes";
 import { useAuth } from "../context/AuthCreate";
@@ -12,9 +11,7 @@ const categories = [
   { name: "Cars", icon: "🚗", detail: "Popular models" },
   { name: "Homes", icon: "🏠", detail: "Explore listings" },
   { name: "Electronics", icon: "💻", detail: "Latest gadgets" },
-  { name: "Furniture", icon: "🛋️", detail: "Fresh finds" },
-  { name: "Jobs", icon: "💼", detail: "Hiring nearby" },
-  { name: "Services", icon: "🧰", detail: "Trusted pros" },
+  { name: "Furniture", icon: "🛋️", detail: "Fresh finds" }
 ];
 
 const featured = [
@@ -45,7 +42,6 @@ const Home = () => {
     fetchProducts();
   }, []);
 
-
   return (
     <div className="landing-page">
       <Navbar isLoggedIn={isLoggedIn} variant="guest" />
@@ -58,15 +54,6 @@ const Home = () => {
             <p>
               Shop trusted local listings, connect with sellers in your area, and discover treasures in your neighborhood.
             </p>
-
-            <div className="hero-actions">
-              <Link to={routes.login} className="primary-button">
-                Get started
-              </Link>
-              <Link to={routes.register} className="secondary-button">
-                Create account
-              </Link>
-            </div>
 
             <div className="stats-row">
               <div>
@@ -135,15 +122,16 @@ const Home = () => {
         </section>
        
         <ProductList
-          title="Handpicked for you"
+          title="Latest Products"
           viewAllLink={routes.products}
+          showViewAll
           products={
             products.length > 0
-              ? products.map((product) => ({
+              ? products.slice(0, 3).map((product) => ({
                   ...product,
                   badge: "Hot",
                 }))
-              : featured.map((item) => ({
+              : featured.slice(0, 3).map((item) => ({
                   id: item.title,
                   title: item.title,
                   price: Number(item.price.replace(/[^\d]/g, "")),

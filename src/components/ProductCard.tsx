@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { auth } from "../services/firebase";
 import { addToWishlist, isInWishlist, removeFromWishlist } from "../services/wishlistService";
 import type { Product } from "../types/productType";
+import { getProductDetailRoute } from "../constants/routes";
 
 export type ProductCardItem = Product & {
   badge?: string;
@@ -17,6 +19,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   const userId = auth.currentUser?.uid;
 
+  const fallbackImage =
+    "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80";
+
   useEffect(() => {
     if (!userId || !product.id) {
       setIsSaved(false);
@@ -31,11 +36,18 @@ const ProductCard = ({ product }: ProductCardProps) => {
     loadSavedState();
   }, [userId, product.id]);
 
-  const cardStyle = product.imageUrl
-    ? { backgroundImage: `url(${product.imageUrl})`, backgroundSize: "cover", backgroundPosition: "center" }
-    : undefined;
+  const imageSource = product.imageUrl && product.imageUrl.trim() ? product.imageUrl : fallbackImage;
 
-  const handleWishlistToggle = async () => {
+  const cardStyle = {
+    backgroundImage: `url(${imageSource})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  };
+
+  const handleWishlistToggle = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+
     if (!userId || !product.id) {
       return;
     }
@@ -55,24 +67,30 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     <article className="product-card-item">
-      <div className="product-card-image" style={cardStyle}>
-        <div className="product-card-badge">{product.badge ?? "Featured"}</div>
-        {!product.imageUrl && <span>{product.category ?? "Listing"}</span>}
-      </div>
+      <Link to={getProductDetailRoute(product.id)} className="product-card-link" aria-label={`View details for ${product.title}`}>
+        <div className="product-card-image" style={cardStyle}>
+          <div className="product-card-badge">{product.badge ?? "Featured"}</div>
+          {!product.imageUrl && <span>{product.category ?? "Listing"}</span>}
+        </div>
+      </Link>
 
       <div className="product-card-body">
         <div className="product-card-header">
-          <h3>{product.title}</h3>
-          <button
-            type="button"
-            className={`wishlist-button ${isSaved ? "is-active" : ""}`}
-            aria-label={`Save ${product.title}`}
-            aria-pressed={isSaved}
-            disabled={isLoading || !userId}
-            onClick={handleWishlistToggle}
-          >
-            {isSaved ? "♥" : "♡"}
-          </button>
+          <Link to={getProductDetailRoute(product.id)} className="product-title-link" aria-label={`View details for ${product.title}`}>
+            <h3>{product.title}</h3>
+          </Link>
+          {userId && (
+            <button
+              type="button"
+              className={`wishlist-button ${isSaved ? "is-active" : ""}`}
+              aria-label={`Save ${product.title}`}
+              aria-pressed={isSaved}
+              disabled={isLoading || !userId}
+              onClick={handleWishlistToggle}
+            >
+              {isSaved ? "♥" : "♡"}
+            </button>
+          )}
         </div>
 
         <p className="product-card-description">

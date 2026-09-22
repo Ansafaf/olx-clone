@@ -8,6 +8,9 @@ import PublicOnlyRoute from "./PublicOnlyRoute";
 import NotFound from "../pages/NotFound";
 import UserHome from "../pages/userHome";
 import ProductListingPage from "../pages/ProductListing";
+import ProductDetails from "../pages/productDetails";
+import SellProduct from "../pages/SellProduct";
+import Wishlist from "../pages/wishlist";
 
 const AppRoutes = () => {
   return (
@@ -33,6 +36,26 @@ const AppRoutes = () => {
         <Route
           path={routes.products}
           element={<ProductListingPage />}
+        />
+        <Route
+          path={routes.productDetails}
+          element={<ProductDetails />}
+        />
+        <Route
+          path={routes.sellProduct}
+          element={
+            <ProtectedRoute>
+              <SellProduct />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.wishlist}
+          element={
+            <ProtectedRoute>
+              <Wishlist />
+            </ProtectedRoute>
+          }
         />
         <Route path={routes.dashboard} element={<ProtectedRoute><UserHome /></ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
